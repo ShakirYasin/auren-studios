@@ -22,7 +22,7 @@
 .DS_Store
 *.pem
 .claude/
-.vercel/
+.vercel
 
 # debug
 npm-debug.log*

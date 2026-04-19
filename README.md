@@ -1,21 +1,43 @@
-# Next.js template
+# OpenClaw Service Agency
 
-This is a Next.js template with shadcn/ui.
+Marketing site and workflow assessment tool for OpenClaw-based agent services.
 
-## Adding components
-
-To add components to your app, run the following command:
+## Development
 
 ```bash
-npx shadcn@latest add button
+bun install
+bun run dev
 ```
 
-This will place the ui components in the `components` directory.
+## Workflow Assessment
 
-## Using components
+The `/assessment` page uses a server-side OpenRouter call to score a client's
+workflow, recommend a plan, suggest useful tool connections, and choose between
+local, VPS, or hybrid setup.
 
-To use the components in your app, import them as follows:
+Required for live assessment analysis:
 
-```tsx
-import { Button } from "@/components/ui/button";
+```bash
+OPENROUTER_API_KEY=
+```
+
+Optional configuration:
+
+```bash
+OPENROUTER_MODEL=openai/gpt-5.2
+ASSESSMENT_WEBHOOK_URL=
+NEXT_PUBLIC_ASSESSMENT_BOOKING_URL=
+NEXT_PUBLIC_SITE_URL=
+```
+
+If `ASSESSMENT_WEBHOOK_URL` is set, completed lead details and the generated
+report are posted there. If it is not set, the full report still renders and the
+CTA falls back to email.
+
+## Checks
+
+```bash
+bun run typecheck
+bun run lint
+bun run build
 ```

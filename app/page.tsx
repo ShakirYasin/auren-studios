@@ -26,7 +26,10 @@ import { DayRailMobile } from "@/components/openclaw/day-rail"
 
 export default function Page() {
   return (
-    <main className="relative z-10 min-h-svh bg-transparent text-bone">
+    <main
+      data-day-rail-page
+      className="relative z-10 min-h-svh bg-transparent text-bone"
+    >
       <DayRailMobile />
       <Nav />
       <Hero />
@@ -72,7 +75,7 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-2">
           <MagneticButton
-            href="#handover"
+            href="/assessment"
             className="inline-flex items-center gap-1.5 rounded-full bg-bone px-4 py-1.5 text-sm font-medium text-coal hover:bg-ember hover:text-coal"
           >
             Check my workflow
@@ -187,7 +190,7 @@ function Hero() {
                 style={{ animationDelay: "240ms" }}
               >
                 <MagneticButton
-                  href="#handover"
+                  href="/assessment"
                   className="ember-glow inline-flex items-center gap-2 rounded-sm bg-ember px-5 py-3 text-sm font-medium text-coal hover:brightness-110"
                 >
                   Check my workflow
@@ -894,7 +897,7 @@ function Pricing() {
               ))}
             </ul>
             <MagneticButton
-              href="#handover"
+              href={t.cta === "Check my workflow" ? "/assessment" : "#handover"}
               className={[
                 "mt-10 inline-flex items-center justify-between rounded-sm px-4 py-3 text-sm",
                 t.featured
@@ -1100,7 +1103,7 @@ function Handover() {
           </p>
           <div className="mt-12 flex flex-wrap items-center gap-3">
             <MagneticButton
-              href="mailto:crew@openclaw.dev?subject=Free%20workflow%20fit%20check"
+              href="/assessment"
               className="ember-glow inline-flex items-center gap-2 rounded-sm bg-ember px-6 py-3.5 text-sm font-medium text-coal hover:brightness-110"
             >
               Check my workflow

@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 import { useScroll } from "./scroll-provider"
 
 const DAYS = [
@@ -18,7 +20,10 @@ const DAYS = [
 
 export function DayRail() {
   const { day, lenis } = useScroll()
+  const enabled = useDayRailEnabled()
   const activeIndex = Math.min(Math.floor(day), DAYS.length - 1)
+
+  if (!enabled) return null
 
   const jump = (anchor: string) => {
     const el = document.getElementById(anchor)
@@ -101,9 +106,12 @@ export function DayRail() {
 
 export function DayRailMobile() {
   const { day } = useScroll()
+  const enabled = useDayRailEnabled()
   const fill = Math.min(100, (day / 10) * 100)
   const activeIndex = Math.min(Math.floor(day), DAYS.length - 1)
   const activeLabel = DAYS[activeIndex]
+  if (!enabled) return null
+
   return (
     <div className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-[2px] bg-[rgb(245_235_220_/_0.06)] lg:hidden">
       <div
@@ -115,4 +123,17 @@ export function DayRailMobile() {
       </div>
     </div>
   )
+}
+
+function useDayRailEnabled() {
+  const [enabled, setEnabled] = useState(false)
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setEnabled(Boolean(document.querySelector("[data-day-rail-page]")))
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [])
+
+  return enabled
 }

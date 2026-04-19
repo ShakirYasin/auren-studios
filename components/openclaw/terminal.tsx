@@ -3,16 +3,10 @@
 import { useEffect, useRef, useState } from "react"
 
 type Line = {
-  /** Source text. */
   text: string
-  /** "ember" prefix like `$` or `→` or special. */
   kind?: "prompt" | "step" | "ok" | "warn" | "final"
 }
 
-/**
- * Streams terminal lines on scroll-visibility. Typewriter cadence with
- * variable speed per kind (prompts fast, steps slower, final flashes).
- */
 export function Terminal({
   lines,
   title = "artefact.log",
@@ -94,16 +88,16 @@ export function Terminal({
     >
       <div className="flex items-center justify-between border-b border-hairline px-3 py-2">
         <div className="flex items-center gap-2">
-          <span className="h-[6px] w-[6px] rounded-full bg-ember pulse-dot" />
+          <span className="pulse-dot h-[6px] w-[6px] rounded-full bg-ember" />
           <span className="label text-[9px] text-ash">{title}</span>
         </div>
         {live && (
           <span className="label text-[9px] text-live">
-            ● {done ? "shipped" : "streaming"}
+            {done ? "ready" : "streaming"}
           </span>
         )}
       </div>
-      <div className="relative px-4 py-4 font-mono text-[11.5px] leading-[1.75] text-ash scan">
+      <div className="scan relative px-4 py-4 font-mono text-[11.5px] leading-[1.75] text-ash">
         {rendered.map((r, i) => {
           const l = lines[i]
           const color =
@@ -118,18 +112,20 @@ export function Terminal({
             l?.kind === "prompt"
               ? { char: "$", color: "text-ember" }
               : l?.kind === "step"
-                ? { char: "→", color: "text-ember/70" }
+                ? { char: ">", color: "text-ember/70" }
                 : l?.kind === "ok"
-                  ? { char: "✓", color: "text-live" }
+                  ? { char: "ok", color: "text-live" }
                   : l?.kind === "warn"
                     ? { char: "!", color: "text-amber-glow" }
                     : l?.kind === "final"
-                      ? { char: "⟡", color: "text-ember" }
-                      : { char: "·", color: "text-ash/50" }
+                      ? { char: "=>", color: "text-ember" }
+                      : { char: "-", color: "text-ash/50" }
           const isLast = i === rendered.length - 1 && !done
           return (
             <div key={i} className={`flex gap-2 ${color}`}>
-              <span className={`${prefix.color} shrink-0`}>{prefix.char}</span>
+              <span className={`${prefix.color} w-5 shrink-0`}>
+                {prefix.char}
+              </span>
               <span className="flex-1 whitespace-pre-wrap break-words">
                 {r}
                 {isLast && (
@@ -137,7 +133,7 @@ export function Terminal({
                     className="ml-0.5 inline-block"
                     style={{ opacity: cursorOn ? 1 : 0 }}
                   >
-                    ▌
+                    |
                   </span>
                 )}
               </span>

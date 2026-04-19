@@ -49,7 +49,7 @@ export function LiveCounter({
           }
         }
       },
-      { threshold: 0.4 },
+      { threshold: 0.4 }
     )
     io.observe(el)
 
@@ -96,7 +96,10 @@ export function LiveCounter({
   return (
     <span ref={ref} className="tabular-nums">
       {prefix}
-      {display.toFixed(decimals)}
+      {new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      }).format(Number(display.toFixed(decimals)))}
       {suffix}
     </span>
   )

@@ -2,10 +2,6 @@
 
 import { useEffect, useRef, useState } from "react"
 
-/**
- * Circular gauge for the SLO stat. Visible ± variance wiggle + settle reveal.
- * SVG, no canvas.
- */
 export function SLODial({
   target = 99.973,
   variance = 0.02,
@@ -99,7 +95,8 @@ export function SLODial({
           strokeDashoffset={dashOffset}
           strokeLinecap="round"
           style={{
-            filter: "drop-shadow(0 0 8px color-mix(in oklch, var(--ember) 60%, transparent))",
+            filter:
+              "drop-shadow(0 0 8px color-mix(in oklch, var(--ember) 60%, transparent))",
             transition: "stroke-dashoffset 80ms linear",
           }}
         />
@@ -114,7 +111,7 @@ export function SLODial({
         <div className="font-display text-4xl tracking-tight tabular-nums">
           {v.toFixed(3)}%
         </div>
-        <div className="label mt-1">live slo · ±{variance}</div>
+        <div className="label mt-1">live slo / +/-{variance}</div>
       </div>
     </div>
   )

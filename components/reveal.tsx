@@ -36,8 +36,8 @@ export function Reveal({
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
-      setShown(true)
-      return
+      const frame = requestAnimationFrame(() => setShown(true))
+      return () => cancelAnimationFrame(frame)
     }
     const io = new IntersectionObserver(
       (entries) => {
@@ -57,18 +57,22 @@ export function Reveal({
   }, [threshold, once])
 
   const Tag = as as ElementType
-  const style: CSSProperties = {
+  const style: CSSProperties & { "--stagger"?: string } = {
     transitionDelay: `${delay}ms`,
     transform: shown ? "none" : `translate3d(0, ${y}px, 0)`,
     opacity: shown ? 1 : 0,
     filter: shown ? "blur(0px)" : "blur(6px)",
   }
   if (stagger) {
-    ;(style as any)["--stagger"] = `${stagger}ms`
+    style["--stagger"] = `${stagger}ms`
   }
+  const setElementRef = (node: HTMLElement | null) => {
+    ref.current = node
+  }
+
   return (
     <Tag
-      ref={ref as any}
+      ref={setElementRef}
       id={id}
       data-shown={shown || undefined}
       className={`reveal ${stagger ? "reveal-stagger" : ""} ${className}`}

@@ -1,25 +1,27 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Database, Workflow, Layers, Zap, Plug, Shield } from "lucide-react"
+import {
+  ClipboardCheck,
+  Gauge,
+  LockKeyhole,
+  Plug,
+  Sparkles,
+  Workflow,
+} from "lucide-react"
 
-/**
- * Horizontal 6-node pipeline that self-assembles as the user scrolls through
- * the section. Each node lights up at its threshold; packets flow between
- * completed nodes. SVG-based for perf + sharpness.
- */
 const NODES = [
-  { icon: Database, label: "Ingestion", tag: "kafka / cdc" },
-  { icon: Workflow, label: "Orchestration", tag: "airflow / dagster" },
-  { icon: Layers, label: "Warehouse", tag: "iceberg / bq" },
-  { icon: Zap, label: "ML", tag: "feast / modal" },
-  { icon: Plug, label: "Integrations", tag: "grpc / sqs" },
-  { icon: Shield, label: "Reliability", tag: "slo / chaos" },
+  { icon: ClipboardCheck, label: "Workflow", tag: "pick the task" },
+  { icon: Plug, label: "Tools", tag: "connect apps" },
+  { icon: Sparkles, label: "Assistant", tag: "build agent" },
+  { icon: LockKeyhole, label: "Approval", tag: "set limits" },
+  { icon: Workflow, label: "Launch", tag: "run live" },
+  { icon: Gauge, label: "Handover", tag: "team guide" },
 ]
 
 export function PipelineGraph() {
   const ref = useRef<HTMLDivElement | null>(null)
-  const [p, setP] = useState(0) // 0..1 section progress
+  const [p, setP] = useState(0)
 
   useEffect(() => {
     const el = ref.current
@@ -47,12 +49,10 @@ export function PipelineGraph() {
     }
   }, [])
 
-  // stretch across all 6 nodes between 15% and 85% of section progress
   const active = Math.floor(((clamp01(p) - 0.1) / 0.75) * NODES.length)
 
   return (
     <div ref={ref} className="relative">
-      {/* connecting line */}
       <div
         className="pointer-events-none absolute left-0 right-0 top-1/2 hidden h-px -translate-y-1/2 md:block"
         style={{ background: "rgb(245 235 220 / 0.12)" }}
@@ -61,8 +61,10 @@ export function PipelineGraph() {
         className="pointer-events-none absolute left-0 top-1/2 hidden h-px -translate-y-1/2 md:block"
         style={{
           width: `${Math.min(100, Math.max(0, ((active + 0.5) / NODES.length) * 100))}%`,
-          background: "linear-gradient(90deg, transparent, var(--ember), var(--amber-glow))",
-          boxShadow: "0 0 12px color-mix(in oklch, var(--ember) 50%, transparent)",
+          background:
+            "linear-gradient(90deg, transparent, var(--ember), var(--amber-glow))",
+          boxShadow:
+            "0 0 12px color-mix(in oklch, var(--ember) 50%, transparent)",
           transition: "width 420ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       />
@@ -76,7 +78,6 @@ export function PipelineGraph() {
               key={n.label}
               className="relative flex flex-col items-center justify-center py-8 md:py-12"
             >
-              {/* packet traveling TO this node */}
               {isLive && i > 0 && (
                 <span
                   aria-hidden

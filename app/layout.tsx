@@ -27,9 +27,9 @@ const fontSerif = Instrument_Serif({
 })
 
 export const metadata = {
-  title: "Openclaw — pipelines, shipped.",
+  title: "OpenClaw Services - AI assistants from $1,499",
   description:
-    "A senior crew that stands up production data & ML pipelines in days, not quarters. Flat pricing. Repo, runbook, and keys handed over on day ten.",
+    "Done-for-you OpenClaw agents for non-technical teams: $299 blueprint with agent setup, $1,499 starter agent, and guarded multi-agent workflows for agencies.",
 }
 
 export default function RootLayout({
@@ -57,7 +57,10 @@ export default function RootLayout({
             {children}
           </ScrollProvider>
           <div aria-hidden className="grain-overlay" />
-          <div aria-hidden className="vignette pointer-events-none fixed inset-0 z-[55]" />
+          <div
+            aria-hidden
+            className="vignette pointer-events-none fixed inset-0 z-[55]"
+          />
         </ThemeProvider>
       </body>
     </html>

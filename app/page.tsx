@@ -2,15 +2,17 @@ import {
   ArrowUpRight,
   Check,
   ChevronDown,
-  CircleDot,
+  ClipboardCheck,
   Database,
-  GitBranch,
   Gauge,
-  Layers,
+  GitBranch,
+  LockKeyhole,
+  MailCheck,
+  MessageSquareText,
   Plug,
   Shield,
+  Sparkles,
   Workflow,
-  Zap,
 } from "lucide-react"
 
 import { Reveal } from "@/components/reveal"
@@ -19,8 +21,6 @@ import { Terminal } from "@/components/openclaw/terminal"
 import { RFCDocument } from "@/components/openclaw/rfc-document"
 import { PipelineGraph } from "@/components/openclaw/pipeline-graph"
 import { LiveCounter } from "@/components/openclaw/live-counter"
-import { SLODial } from "@/components/openclaw/slo-dial"
-import { SoundToggle } from "@/components/openclaw/sound-toggle"
 import { LiveClock } from "@/components/openclaw/live-clock"
 import { DayRailMobile } from "@/components/openclaw/day-rail"
 
@@ -30,13 +30,12 @@ export default function Page() {
       <DayRailMobile />
       <Nav />
       <Hero />
-      <Logos />
-      <Scoping />
+      <Examples />
+      <Safety />
+      <PlatformStrip />
       <Services />
       <Process />
-      <Stats />
       <Pricing />
-      <Testimonials />
       <Faq />
       <Handover />
       <Footer />
@@ -44,31 +43,23 @@ export default function Page() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  NAV                                                                       */
-/* -------------------------------------------------------------------------- */
-
 function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-coal/55 backdrop-blur-xl">
+    <header className="border-hairline sticky top-0 z-40 border-b bg-coal/55 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6 lg:px-10">
         <a href="#" className="flex items-center gap-2.5">
           <Mark />
-          <span className="font-display text-xl font-medium leading-none tracking-tight">
-            Openclaw
-          </span>
-          <span className="label ml-2 hidden md:inline">
-            <span className="inline-block h-1.5 w-1.5 translate-y-[-1px] rounded-full bg-ember pulse-dot" />
-            <span className="ml-2 text-ash">Shipping · Q2</span>
+          <span className="font-display text-xl leading-none font-medium tracking-tight">
+            OpenClaw Services
           </span>
         </a>
         <nav className="hidden items-center gap-8 text-sm md:flex">
           {[
-            ["Scoping", "scoping"],
+            ["Examples", "work"],
+            ["Safety", "safety"],
             ["Build", "services"],
             ["Pricing", "pricing"],
-            ["Work", "work"],
-            ["Handover", "handover"],
+            ["Start", "handover"],
           ].map(([label, id]) => (
             <a
               key={id}
@@ -80,17 +71,12 @@ function Nav() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <span className="label hidden items-center gap-2 rounded-full border border-hairline px-3 py-1.5 md:inline-flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-live pulse-dot" />
-            <span className="text-ash">all systems · ok</span>
-          </span>
-          <SoundToggle />
           <MagneticButton
             href="#handover"
             className="inline-flex items-center gap-1.5 rounded-full bg-bone px-4 py-1.5 text-sm font-medium text-coal hover:bg-ember hover:text-coal"
           >
-            Book a call
-            <ArrowUpRight className="h-3.5 w-3.5 magnetic" />
+            Check my workflow
+            <ArrowUpRight className="magnetic h-3.5 w-3.5" />
           </MagneticButton>
         </div>
       </div>
@@ -103,7 +89,8 @@ function Mark() {
     <span
       className="relative grid h-7 w-7 place-items-center rounded-sm border border-ember/60 bg-ember/10"
       style={{
-        boxShadow: "inset 0 0 12px color-mix(in oklch, var(--ember) 35%, transparent)",
+        boxShadow:
+          "inset 0 0 12px color-mix(in oklch, var(--ember) 35%, transparent)",
       }}
     >
       <svg
@@ -111,8 +98,8 @@ function Mark() {
         className="h-4 w-4 text-ember"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
         strokeLinecap="round"
+        strokeWidth="2"
       >
         <path d="M4 20 L10 4" />
         <path d="M10 20 L16 4" />
@@ -123,56 +110,57 @@ function Mark() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  HERO — DAY 0                                                              */
-/* -------------------------------------------------------------------------- */
-
-const HERO_LOG: { text: string; kind?: "prompt" | "step" | "ok" | "warn" | "final" }[] = [
-  { text: "openclaw init --pipeline=ingest --client=acme", kind: "prompt" },
-  { text: "provisioning airflow · eks · spot", kind: "step" },
-  { text: "wiring kafka → s3 → iceberg", kind: "step" },
-  { text: "dbt models · 41 tests · green", kind: "ok" },
-  { text: "grafana board pinned", kind: "ok" },
-  { text: "shipped in 7d 04h 12m · slo 99.973% · cost $412.80/mo", kind: "final" },
+const HERO_LOG: {
+  text: string
+  kind?: "prompt" | "step" | "ok" | "warn" | "final"
+}[] = [
+  { text: "workflow: customer messages -> draft replies", kind: "prompt" },
+  { text: "connected: Slack, Gmail, Sheets", kind: "step" },
+  { text: "agent can summarize, draft, update tasks", kind: "step" },
+  { text: "sending emails requires owner approval", kind: "ok" },
+  { text: "payments, deletes, and exports blocked", kind: "ok" },
+  { text: "handover: working assistant + plain guide", kind: "final" },
 ]
 
 function Hero() {
   return (
     <section id="hero" className="relative isolate">
-      <div className="absolute inset-0 -z-10 bg-grid opacity-40" />
+      <div className="bg-grid absolute inset-0 -z-10 opacity-40" />
       <div className="absolute inset-x-0 top-0 -z-10 h-[120%] bg-gradient-to-b from-transparent via-transparent to-coal" />
 
-      <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-0 border-x border-hairline px-0">
-        <aside className="col-span-12 hidden border-r border-hairline px-4 py-6 md:col-span-1 md:block">
-          <div className="label rotate-180 [writing-mode:vertical-rl] text-ash">
-            § 00 / openclaw.services
+      <div className="border-hairline mx-auto grid max-w-[1440px] grid-cols-12 gap-0 border-x px-0">
+        <aside className="border-hairline col-span-12 hidden border-r px-4 py-6 md:col-span-1 md:block">
+          <div className="label rotate-180 text-ash [writing-mode:vertical-rl]">
+            openclaw.services / done-for-you AI assistants
           </div>
         </aside>
 
         <div className="col-span-12 md:col-span-11">
           <div className="grid grid-cols-12 gap-0">
-            <div className="col-span-12 border-b border-hairline px-6 py-5 md:px-10">
+            <div className="border-hairline col-span-12 border-b px-6 py-5 md:px-10">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="label flex items-center gap-3 text-ash">
-                  <span>§ 00 · day 0 · scope</span>
+                  <span>00 / business workflow automation</span>
                   <span className="hidden h-[10px] w-px bg-[rgb(245_235_220_/_0.15)] md:block" />
                   <span className="hidden text-[9px] md:inline">
-                    <LiveClock /> · pipeline.status
-                    <span className="text-ember"> idle</span> · awaiting kickoff
+                    <LiveClock /> / first call
+                    <span className="text-ember"> maps one workflow</span>
                   </span>
                 </div>
-                <div className="label text-ash">Edition 04 · Vol. ii</div>
+                <div className="label text-ash">built on OpenClaw</div>
               </div>
             </div>
 
             <div className="relative col-span-12 px-6 pt-14 pb-10 md:col-span-8 md:px-10 md:pt-28 md:pb-24 lg:pt-32">
               <div className="label mb-8 inline-flex items-center gap-2 text-ash">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-ember pulse-dot" />
-                Booking May cohort — 3 slots left
+                <span className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-ember" />
+                For owners, operators, and teams buried in repeat work
               </div>
 
-              <h1 className="font-display text-[clamp(2.75rem,7vw,7rem)] font-medium leading-[0.88] tracking-[-0.04em] rise">
-                Pipelines,
+              <h1 className="rise font-display text-[clamp(2.65rem,6.8vw,6.7rem)] leading-[0.9] font-medium tracking-[-0.04em]">
+                AI assistants
+                <br />
+                that do the
                 <br />
                 <span
                   className="font-serif-italic font-normal text-ember"
@@ -181,71 +169,80 @@ function Hero() {
                       "0 0 40px color-mix(in oklch, var(--ember) 42%, transparent), 0 0 80px color-mix(in oklch, var(--ember) 18%, transparent)",
                   }}
                 >
-                  shipped
+                  actual work.
                 </span>
-                <span className="text-ash/70"> — </span>not
-                <br />
-                scheduled.
               </h1>
 
               <p
-                className="mt-10 max-w-xl text-lg leading-relaxed text-ash rise"
+                className="rise mt-10 max-w-2xl text-lg leading-relaxed text-ash"
                 style={{ animationDelay: "140ms" }}
               >
-                Openclaw is a small, senior crew that stands up production data
-                and ML pipelines in{" "}
-                <span className="text-bone">days, not quarters.</span> Flat
-                pricing, open-source first, and every artefact handed over —
-                repo, runbook, and keys.
+                We set up OpenClaw agents that read messages, prepare replies,
+                update your tools, check records, and run repeatable business
+                workflows. Sensitive actions stay behind your approval.
               </p>
 
               <div
-                className="mt-10 flex flex-wrap items-center gap-3 rise"
+                className="rise mt-10 flex flex-wrap items-center gap-3"
                 style={{ animationDelay: "240ms" }}
               >
                 <MagneticButton
                   href="#handover"
-                  className="inline-flex items-center gap-2 rounded-sm bg-ember px-5 py-3 text-sm font-medium text-coal ember-glow hover:brightness-110"
+                  className="ember-glow inline-flex items-center gap-2 rounded-sm bg-ember px-5 py-3 text-sm font-medium text-coal hover:brightness-110"
                 >
-                  Start a pipeline
-                  <ArrowUpRight className="h-4 w-4 magnetic" />
+                  Check my workflow
+                  <ArrowUpRight className="magnetic h-4 w-4" />
                 </MagneticButton>
                 <MagneticButton
-                  href="#services"
-                  className="inline-flex items-center gap-2 rounded-sm border border-hairline px-5 py-3 text-sm text-bone hover:border-bone/60"
+                  href="#work"
+                  className="border-hairline inline-flex items-center gap-2 rounded-sm border px-5 py-3 text-sm text-bone hover:border-bone/60"
                   strength={4}
                 >
-                  See the 10-day build
+                  See example agents
                 </MagneticButton>
                 <span className="label ml-2 hidden text-ash md:inline">
-                  avg. ship time · 9.2 days
+                  free fit check / starter build / owned by you
                 </span>
               </div>
 
               <dl
-                className="mt-16 grid max-w-2xl grid-cols-3 gap-0 rise"
+                className="rise mt-16 grid max-w-2xl grid-cols-3 gap-0"
                 style={{ animationDelay: "320ms" }}
               >
-                <StatCell k="Pipelines shipped" v={247} />
-                <StatCell k="Median cost cut" v={61.4} suffix="%" decimals={1} variance={0.05} border />
-                <StatCell k="Contractual SLO" v={99.973} suffix="%" decimals={3} variance={0.005} border />
+                <StatCell k="Starts at" value="$0" />
+                <StatCell k="First agent" value="$1,499" border />
+                <StatCell k="Starter build" value="5-7d" border />
               </dl>
             </div>
 
-            {/* artefact.log */}
-            <aside className="relative col-span-12 flex flex-col border-t border-hairline px-6 py-10 md:col-span-4 md:border-t-0 md:border-l md:px-6 md:py-14">
+            <aside className="border-hairline relative col-span-12 flex flex-col border-t px-6 py-10 md:col-span-4 md:border-t-0 md:border-l md:px-6 md:py-14">
               <div className="mb-4">
-                <Terminal lines={HERO_LOG} title="artefact.log · ingest" />
+                <Terminal lines={HERO_LOG} title="workflow.preview" />
               </div>
 
               <div className="mt-8 space-y-3">
                 {[
-                  { icon: GitBranch, k: "repo", v: "handed over, day one" },
-                  { icon: Shield, k: "SOC2", v: "runbooks + access review" },
-                  { icon: Gauge, k: "observability", v: "metrics · logs · traces" },
+                  {
+                    icon: MessageSquareText,
+                    k: "handles",
+                    v: "inbox, support, follow-ups",
+                  },
+                  {
+                    icon: Shield,
+                    k: "protects",
+                    v: "approval before risky actions",
+                  },
+                  {
+                    icon: ClipboardCheck,
+                    k: "handover",
+                    v: "plain guide your team can use",
+                  },
                 ].map(({ icon: Icon, k, v }) => (
                   <div key={k} className="flex items-start gap-3">
-                    <Icon className="mt-0.5 h-4 w-4 text-ember" strokeWidth={1.5} />
+                    <Icon
+                      className="mt-0.5 h-4 w-4 text-ember"
+                      strokeWidth={1.5}
+                    />
                     <div>
                       <div className="label text-ash">{k}</div>
                       <div className="text-sm text-bone">{v}</div>
@@ -257,10 +254,8 @@ function Hero() {
               <div className="mt-auto pt-10">
                 <div className="rule" />
                 <p className="label mt-4 text-ash">
-                  &ldquo;Felt like hiring a staff engineer for a week.&rdquo; —{" "}
-                  <span className="text-bone/80">
-                    Ines Vasconcelos, Head of Data · Nox
-                  </span>
+                  OpenClaw is the engine. We handle setup, connections, safety
+                  rules, and handover.
                 </p>
               </div>
             </aside>
@@ -274,127 +269,186 @@ function Hero() {
 function StatCell({
   k,
   v,
+  value,
+  prefix,
   suffix,
   decimals,
   variance,
   border,
 }: {
   k: string
-  v: number
+  v?: number
+  value?: string
+  prefix?: string
   suffix?: string
   decimals?: number
   variance?: number
   border?: boolean
 }) {
   return (
-    <div className={`px-1 ${border ? "border-l border-hairline pl-6" : ""}`}>
+    <div className={`px-1 ${border ? "border-hairline border-l pl-6" : ""}`}>
       <dt className="label text-ash">{k}</dt>
-      <dd className="font-display mt-2 text-4xl font-medium leading-none tracking-tight text-bone">
-        <LiveCounter
-          value={v}
-          suffix={suffix}
-          decimals={decimals}
-          variance={variance}
-        />
+      <dd className="mt-2 font-display text-4xl leading-none font-medium tracking-tight text-bone">
+        {value ?? (
+          <LiveCounter
+            value={v ?? 0}
+            prefix={prefix}
+            suffix={suffix}
+            decimals={decimals}
+            variance={variance}
+          />
+        )}
       </dd>
     </div>
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  LOGO MARQUEE                                                              */
-/* -------------------------------------------------------------------------- */
-
-function Logos() {
-  const names = [
-    "Northwind Labs",
-    "Helios AI",
-    "Parallax",
-    "Drift / Delta",
-    "Meridian",
-    "Corvus",
-    "Lumen Bio",
-    "Fieldnote",
-    "Astra Logistics",
-    "Pagefold",
+function Examples() {
+  const examples = [
+    {
+      icon: MessageSquareText,
+      t: "Customer support assistant",
+      p: "Reads support messages, drafts replies, opens tickets, and asks before sending anything to a customer.",
+      proof: "Good for teams with a busy inbox or Slack intake.",
+    },
+    {
+      icon: MailCheck,
+      t: "Sales follow-up assistant",
+      p: "Watches new leads, drafts follow-ups, updates CRM notes, and reminds your team when a deal stalls.",
+      proof: "Good for agencies, service firms, and small sales teams.",
+    },
+    {
+      icon: Database,
+      t: "Finance admin assistant",
+      p: "Checks invoices, flags unusual charges, prepares payment summaries, and keeps money movement approval-only.",
+      proof: "Good for founders and operators who review bills manually.",
+    },
+    {
+      icon: ClipboardCheck,
+      t: "Operations checklist assistant",
+      p: "Tracks recurring tasks, chases missing information, updates spreadsheets, and summarizes what changed.",
+      proof: "Good for teams running the same checklist every week.",
+    },
+    {
+      icon: Sparkles,
+      t: "Founder briefing assistant",
+      p: "Summarizes inbox, Slack, calendar, and documents into a morning brief with drafts ready to review.",
+      proof: "Good when the owner is the bottleneck.",
+    },
+    {
+      icon: Workflow,
+      t: "Custom workflow assistant",
+      p: "Bring the repeated task. We turn it into a working agent connected to the tools your team already uses.",
+      proof: "Good when the workflow is specific to your business.",
+    },
   ]
-  const items = [...names, ...names]
   return (
-    <section className="relative overflow-hidden border-y border-hairline bg-coal/60 py-6 backdrop-blur">
-      <div className="mx-auto flex max-w-[1440px] items-center gap-6 px-6 lg:px-10">
-        <span className="label shrink-0 border-r border-hairline pr-6 text-ash">
-          Trusted by ops & data teams
-        </span>
-        <div className="marquee-wrap relative flex-1 overflow-hidden">
-          <div className="marquee">
-            {items.map((n, i) => (
-              <span
-                key={i}
-                className="font-display whitespace-nowrap text-2xl font-medium text-ash/70"
-              >
-                {n}
-                <span className="mx-8 text-ember/60">✦</span>
-              </span>
-            ))}
-          </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-coal to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-coal to-transparent" />
-        </div>
-      </div>
+    <section id="work" className="border-hairline relative border-t">
+      <SectionHeader
+        no="01"
+        day="Examples"
+        kicker="What agents can do"
+        title={
+          <>
+            Start with the work
+            <br className="hidden md:block" /> your team keeps repeating.
+          </>
+        }
+        lede="Non-technical teams do not need an AI platform lecture. They need one useful assistant doing one clear job."
+      />
+      <Reveal
+        as="div"
+        stagger={80}
+        className="border-hairline mx-auto grid max-w-[1440px] grid-cols-1 border-x md:grid-cols-8 lg:grid-cols-12"
+      >
+        {examples.map((item, i) => {
+          const Icon = item.icon
+          return (
+            <article
+              key={item.t}
+              className={[
+                "lift group border-hairline relative flex min-h-[270px] flex-col justify-between border-b p-8 hover:bg-surface-1/50 md:p-10",
+                i % 2 === 0 ? "md:border-r" : "",
+                i === 0 || i === 5
+                  ? "md:col-span-4 lg:col-span-5"
+                  : "md:col-span-4 lg:col-span-3",
+              ].join(" ")}
+            >
+              <div className="flex items-start justify-between">
+                <div className="label text-ash">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                <Icon
+                  strokeWidth={1.5}
+                  className="h-5 w-5 text-ash transition-colors group-hover:text-ember"
+                />
+              </div>
+              <div className="mt-12">
+                <h3 className="font-display text-3xl font-medium tracking-tight md:text-[2.25rem]">
+                  {item.t}
+                </h3>
+                <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-ash">
+                  {item.p}
+                </p>
+              </div>
+              <p className="label border-hairline mt-8 border-t pt-4 text-ash">
+                {item.proof}
+              </p>
+            </article>
+          )
+        })}
+      </Reveal>
     </section>
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  SCOPING — DAY 1-2                                                         */
-/* -------------------------------------------------------------------------- */
-
-function Scoping() {
+function Safety() {
+  const rules = [
+    {
+      k: "Drafts are safe",
+      v: "The assistant can prepare replies, summaries, reports, and task updates without touching customers or money.",
+    },
+    {
+      k: "Risky actions ask first",
+      v: "Sending emails, deleting records, moving files, exporting data, or spending money can require your approval.",
+    },
+    {
+      k: "Clear limits",
+      v: "We write down exactly what the agent can do, what it cannot do, and who is allowed to approve exceptions.",
+    },
+    {
+      k: "You own the setup",
+      v: "OpenClaw is open-source and self-hosted. Your configuration, guide, and operating notes are handed over.",
+    },
+  ]
   return (
-    <section id="scoping" className="relative border-t border-hairline">
+    <section id="safety" className="border-hairline relative border-t">
       <SectionHeader
-        no="§ 01"
-        day="Day 01 — 02"
-        kicker="Scoping & Architecture"
+        no="02"
+        day="Safety"
+        kicker="Human control"
         title={
           <>
-            The RFC comes{" "}
-            <span className="font-serif-italic font-normal text-ember">before</span>
-            <br />a single line of Terraform.
+            Useful automation,
+            <br className="hidden md:block" /> with approval where it matters.
           </>
         }
-        lede="60-minute call, then an RFC you'd actually read. Cost estimate, tool matrix, trade-offs. Nothing gets built before you sign off."
+        lede="The agent can do the repetitive prep work. Your team keeps control over sensitive decisions."
       />
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 border-x border-hairline md:grid-cols-12">
-        <div className="col-span-1 border-b border-hairline p-8 md:col-span-7 md:border-b-0 md:border-r md:p-12">
+      <div className="border-hairline mx-auto grid max-w-[1440px] grid-cols-1 border-x md:grid-cols-12">
+        <div className="border-hairline col-span-1 border-b p-8 md:col-span-7 md:border-r md:border-b-0 md:p-12">
           <RFCDocument />
         </div>
         <div className="col-span-1 p-8 md:col-span-5 md:p-12">
           <div className="space-y-8">
-            {[
-              {
-                k: "60 minutes",
-                v: "scoping call",
-                p: "We sketch the diagram, name the trade-offs, quote flat. If it's wrong for us, we say so.",
-              },
-              {
-                k: "written",
-                v: "RFC, not slides",
-                p: "A document you can annotate, share, and archive. No recurring status meeting.",
-              },
-              {
-                k: "signed off",
-                v: "before build",
-                p: "You approve the architecture and the cost envelope. We stake our fee on it.",
-              },
-            ].map((s) => (
-              <div key={s.k} className="border-t border-hairline pt-6 first:border-t-0 first:pt-0">
-                <div className="label text-ember">{s.k}</div>
-                <div className="font-display mt-2 text-2xl tracking-tight text-bone">
-                  {s.v}
-                </div>
+            {rules.map((rule) => (
+              <div
+                key={rule.k}
+                className="border-hairline border-t pt-6 first:border-t-0 first:pt-0"
+              >
+                <div className="label text-ember">{rule.k}</div>
                 <p className="mt-3 max-w-sm text-sm leading-relaxed text-ash">
-                  {s.p}
+                  {rule.v}
                 </p>
               </div>
             ))}
@@ -405,9 +459,49 @@ function Scoping() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  SERVICES — DAY 3-8 — Pipeline self-assembles                              */
-/* -------------------------------------------------------------------------- */
+function PlatformStrip() {
+  const names = [
+    "Customer support",
+    "Lead follow-up",
+    "Invoice review",
+    "Meeting prep",
+    "Weekly reports",
+    "Slack summaries",
+    "CRM updates",
+    "Google Sheets",
+    "Gmail",
+    "Notion",
+    "HubSpot",
+    "Stripe",
+    "Calendar",
+    "Human approval",
+  ]
+  const items = [...names, ...names]
+  return (
+    <section className="border-hairline relative overflow-hidden border-y bg-coal/60 py-6 backdrop-blur">
+      <div className="mx-auto flex max-w-[1440px] items-center gap-6 px-6 lg:px-10">
+        <span className="label border-hairline shrink-0 border-r pr-6 text-ash">
+          Common starting points
+        </span>
+        <div className="marquee-wrap relative flex-1 overflow-hidden">
+          <div className="marquee">
+            {items.map((n, i) => (
+              <span
+                key={`${n}-${i}`}
+                className="font-display text-2xl font-medium whitespace-nowrap text-ash/70"
+              >
+                {n}
+                <span className="mx-8 text-ember/60">/</span>
+              </span>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-coal to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-coal to-transparent" />
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function Services() {
   const items: {
@@ -420,81 +514,80 @@ function Services() {
     accent?: boolean
   }[] = [
     {
-      icon: Database,
+      icon: ClipboardCheck,
       n: "01",
-      t: "Ingestion",
-      p: "Kafka, Kinesis, Debezium, Fivetran — we pick the cheap one that actually fits the throughput you have.",
-      tags: ["kafka", "cdc", "batch"],
+      t: "Workflow mapping",
+      p: "We turn a messy repeated task into a simple map: inputs, decisions, outputs, approvals, and edge cases.",
+      tags: ["task map", "owner review", "scope"],
       span: "md:col-span-4 lg:col-span-5",
       accent: true,
-    },
-    {
-      icon: Workflow,
-      n: "02",
-      t: "Orchestration",
-      p: "Airflow, Dagster, or Temporal. Opinionated DAGs, retries, lineage, and SLAs wired on day one.",
-      tags: ["airflow", "dagster", "cron"],
-      span: "md:col-span-4 lg:col-span-4",
-    },
-    {
-      icon: Layers,
-      n: "03",
-      t: "Warehouse & Lake",
-      p: "BigQuery, Snowflake, Iceberg on S3. Partitioning, clustering, storage class — tuned to your bill.",
-      tags: ["iceberg", "bq", "dbt"],
-      span: "md:col-span-4 lg:col-span-3",
-    },
-    {
-      icon: Zap,
-      n: "04",
-      t: "ML pipelines",
-      p: "Feature stores, training loops, and model serving on Modal, Ray, or SageMaker. Reproducible by default.",
-      tags: ["feast", "modal", "ray"],
-      span: "md:col-span-4 lg:col-span-4",
     },
     {
       icon: Plug,
-      n: "05",
-      t: "Integrations",
-      p: "Webhooks, APIs, event busses. The connective tissue that usually gets left for &ldquo;next sprint&rdquo;.",
-      tags: ["rest", "grpc", "sqs"],
+      n: "02",
+      t: "Tool connection",
+      p: "We connect the assistant to the tools your team already uses: inboxes, chat, documents, spreadsheets, CRMs, and calendars.",
+      tags: ["email", "chat", "crm"],
+      span: "md:col-span-4 lg:col-span-4",
+    },
+    {
+      icon: Sparkles,
+      n: "03",
+      t: "Agent build",
+      p: "We build the OpenClaw agent, give it the right instructions, and test it against real examples from your business.",
+      tags: ["assistant", "examples", "testing"],
       span: "md:col-span-4 lg:col-span-3",
     },
     {
-      icon: Shield,
-      n: "06",
-      t: "Reliability",
-      p: "SLOs, alerting, on-call playbooks, chaos-tested runbooks. We break it before your customers do.",
-      tags: ["slo", "oncall", "chaos"],
-      span: "md:col-span-4 lg:col-span-5",
+      icon: LockKeyhole,
+      n: "04",
+      t: "Safety rules",
+      p: "We define what the agent can do alone, what needs approval, and what should stay blocked.",
+      tags: ["approval", "limits", "safety map"],
+      span: "md:col-span-4 lg:col-span-4",
       accent: true,
+    },
+    {
+      icon: GitBranch,
+      n: "05",
+      t: "Launch and handover",
+      p: "Your team gets the working assistant, the setup, the plain-English guide, and a live walkthrough.",
+      tags: ["handover", "guide", "owned"],
+      span: "md:col-span-4 lg:col-span-3",
+    },
+    {
+      icon: Gauge,
+      n: "06",
+      t: "Ongoing improvements",
+      p: "After launch, we can tune prompts, add workflows, review failures, and keep the assistant useful as your work changes.",
+      tags: ["tuning", "support", "new tasks"],
+      span: "md:col-span-4 lg:col-span-5",
     },
   ]
 
   return (
-    <section id="services" className="relative border-t border-hairline">
+    <section id="services" className="border-hairline relative border-t">
       <SectionHeader
-        no="§ 02"
-        day="Day 03 — 08"
-        kicker="The Build"
+        no="03"
+        day="Build"
+        kicker="What we set up"
         title={
           <>
-            Six crafts.{" "}
-            <span className="font-serif-italic font-normal text-ash">One crew.</span>
+            You bring the workflow.
+            <br className="hidden md:block" /> We build the assistant.
           </>
         }
-        lede="We don't do slides. Every engagement ends with a running system, a handover doc, and a git sha you own."
+        lede="The technical OpenClaw setup happens behind the scenes. What you see is a working agent your team can actually use."
       />
 
-      {/* Pipeline assembly graph */}
-      <div className="mx-auto max-w-[1440px] border-x border-hairline px-6 py-10 md:px-10 md:py-14">
+      <div className="border-hairline mx-auto max-w-[1440px] border-x px-6 py-10 md:px-10 md:py-14">
         <PipelineGraph />
       </div>
 
       <Reveal
         as="div"
         stagger={70}
-        className="mx-auto grid max-w-[1440px] grid-cols-1 border-x border-t border-hairline md:grid-cols-8 lg:grid-cols-12"
+        className="border-hairline mx-auto grid max-w-[1440px] grid-cols-1 border-x border-t md:grid-cols-8 lg:grid-cols-12"
       >
         {items.map((s, i) => {
           const Icon = s.icon
@@ -502,7 +595,7 @@ function Services() {
             <article
               key={s.t}
               className={[
-                "lift group relative flex min-h-[280px] flex-col justify-between border-b border-hairline p-8 hover:bg-surface-1/50 md:p-10",
+                "lift group border-hairline relative flex min-h-[280px] flex-col justify-between border-b p-8 hover:bg-surface-1/50 md:p-10",
                 i % 2 === 0 ? "md:border-r" : "",
                 s.span,
                 s.accent ? "stripes" : "",
@@ -519,16 +612,15 @@ function Services() {
                 <h3 className="font-display text-3xl font-medium tracking-tight md:text-[2.25rem]">
                   {s.t}
                 </h3>
-                <p
-                  className="mt-3 max-w-[52ch] text-sm leading-relaxed text-ash"
-                  dangerouslySetInnerHTML={{ __html: s.p }}
-                />
+                <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-ash">
+                  {s.p}
+                </p>
               </div>
               <div className="mt-8 flex flex-wrap gap-1.5">
                 {s.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-sm border border-hairline px-2 py-0.5 font-mono text-[10px] tracking-wider text-ash"
+                    className="border-hairline rounded-sm border px-2 py-0.5 font-mono text-[10px] tracking-wider text-ash"
                   >
                     {t}
                   </span>
@@ -542,54 +634,53 @@ function Services() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  PROCESS                                                                   */
-/* -------------------------------------------------------------------------- */
-
 function Process() {
   const steps = [
     {
-      d: "Day 0",
-      t: "Scoping call",
-      p: "60 minutes. We sketch the diagram, name the trade-offs, and quote flat. If it's wrong for us, we say so.",
+      d: "15 min",
+      t: "Free fit check",
+      p: "We look at one repeated task and tell you if an agent is worth building, what it should handle, and where a human should approve.",
     },
     {
-      d: "Day 1–2",
-      t: "Architecture",
-      p: "Written RFC. Cost estimate. Tool matrix with reasons. Nothing gets built before you sign off.",
+      d: "48 hours",
+      t: "Blueprint the build",
+      p: "You get OpenClaw agent setup, the workflow map, required tool connections, approval rules, savings estimate, and a fixed quote.",
     },
     {
-      d: "Day 3–8",
-      t: "Build & wire",
-      p: "You're in the Slack channel. Daily loom. Staging environment goes up on day four, instrumented from day one.",
+      d: "5-7 days",
+      t: "Launch starter agent",
+      p: "A simple assistant goes live for one narrow workflow so your team can feel the value before committing to a larger automation program.",
     },
     {
-      d: "Day 9–10",
-      t: "Harden & hand over",
-      p: "Load test, chaos test, runbook, on-call rotation, and a walkthrough. Then your team owns it — with us on standby.",
+      d: "10-14 days",
+      t: "Build business agent",
+      p: "For lower-risk operations, we add more guardrails, stricter approval paths, deeper testing, team training, and a plain operating guide.",
     },
   ]
   return (
-    <section id="process" className="relative border-t border-hairline">
+    <section id="process" className="border-hairline relative border-t">
       <SectionHeader
-        no="§ 03"
+        no="04"
         day="Cadence"
-        kicker="Process"
+        kicker="5-14 day path"
         title={
           <>
-            Ten working days,
-            <br className="hidden md:block" />{" "}
-            <span className="font-serif-italic font-normal text-ember">honestly priced.</span>
+            Start with a check.
+            <br className="hidden md:block" /> Pay only when the case is clear.
           </>
         }
-        lede="No discovery quarter. No status-meeting tax. One sprint, one artefact, one price."
+        lede="The entry path is intentionally small: prove one workflow, then expand only when the team sees the work coming off their plate."
       />
-      <div className="mx-auto max-w-[1440px] border-x border-hairline">
-        <Reveal as="ol" stagger={90} className="grid grid-cols-1 md:grid-cols-4">
+      <div className="border-hairline mx-auto max-w-[1440px] border-x">
+        <Reveal
+          as="ol"
+          stagger={90}
+          className="grid grid-cols-1 md:grid-cols-4"
+        >
           {steps.map((s, i) => (
             <li
               key={s.t}
-              className={`relative flex flex-col gap-4 border-b border-hairline p-8 md:border-b-0 md:p-10 ${
+              className={`border-hairline relative flex flex-col gap-4 border-b p-8 md:border-b-0 md:p-10 ${
                 i < steps.length - 1 ? "md:border-r" : ""
               }`}
             >
@@ -601,13 +692,16 @@ function Process() {
               </div>
               <div className="relative my-2 h-px bg-[rgb(245_235_220_/_0.12)]">
                 <span
-                  className="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-ember"
+                  className="absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-ember"
                   style={{
-                    boxShadow: "0 0 10px color-mix(in oklch, var(--ember) 60%, transparent)",
+                    boxShadow:
+                      "0 0 10px color-mix(in oklch, var(--ember) 60%, transparent)",
                   }}
                 />
               </div>
-              <h4 className="font-display text-2xl font-medium tracking-tight">{s.t}</h4>
+              <h4 className="font-display text-2xl font-medium tracking-tight">
+                {s.t}
+              </h4>
               <p className="text-sm leading-relaxed text-ash">{s.p}</p>
             </li>
           ))}
@@ -617,215 +711,150 @@ function Process() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  STATS — DAY 8 Telemetry                                                   */
-/* -------------------------------------------------------------------------- */
-
-function Stats() {
-  return (
-    <section id="stats" className="relative border-t border-hairline">
-      <SectionHeader
-        no="§ 04"
-        day="Day 08"
-        kicker="Telemetry"
-        title={
-          <>
-            The system,{" "}
-            <span className="font-serif-italic font-normal text-ember">instrumented.</span>
-          </>
-        }
-        lede="Every number on this page is measured from our last 42 engagements. We print the variance, not just the headline."
-      />
-      <div className="mx-auto max-w-[1440px] border-x border-hairline">
-        <Reveal as="div" stagger={120} className="grid grid-cols-1 md:grid-cols-4">
-          <TelemetryCell
-            k="Median ship time"
-            value={9.2}
-            suffix="d"
-            decimals={1}
-            sub="scope → prod · n=38"
-            variance={0.03}
-          />
-          <TelemetryCell
-            k="Cost reduction"
-            value={61.4}
-            suffix="%"
-            decimals={1}
-            sub="avg across 42 audits"
-            variance={0.04}
-            border
-          />
-          <TelemetryCellSLO />
-          <TelemetryCell
-            k="Handover rate"
-            value={1.0}
-            decimals={2}
-            sub="every artefact · yours"
-            border
-          />
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-function TelemetryCell({
-  k,
-  value,
-  suffix,
-  decimals,
-  sub,
-  variance,
-  border,
-}: {
-  k: string
-  value: number
-  suffix?: string
-  decimals?: number
-  sub: string
-  variance?: number
-  border?: boolean
-}) {
-  return (
-    <div
-      className={`relative p-8 md:p-12 ${
-        border ? "border-t border-hairline md:border-l md:border-t-0" : ""
-      }`}
-    >
-      <div className="label text-ash">{k}</div>
-      <div className="font-display mt-4 text-6xl font-medium leading-none tracking-tight text-bone">
-        <LiveCounter
-          value={value}
-          suffix={suffix}
-          decimals={decimals}
-          variance={variance}
-        />
-      </div>
-      <div className="mt-3 font-mono text-[11px] text-ash">{sub}</div>
-      {variance !== undefined && (
-        <div className="mt-4 h-[18px] w-24">
-          <MiniWave />
-        </div>
-      )}
-    </div>
-  )
-}
-
-function TelemetryCellSLO() {
-  return (
-    <div className="relative p-8 md:p-12 border-t border-hairline md:border-l md:border-t-0">
-      <div className="label text-ash">Contractual SLO</div>
-      <div className="mt-4">
-        <SLODial />
-      </div>
-      <div className="mt-3 font-mono text-[11px] text-ash">
-        p99 · uptime · 90d rolling
-      </div>
-    </div>
-  )
-}
-
-function MiniWave() {
-  return (
-    <svg viewBox="0 0 100 18" className="h-full w-full">
-      <defs>
-        <linearGradient id="wv" x1="0" x2="1">
-          <stop offset="0" stopColor="transparent" />
-          <stop offset="0.1" stopColor="var(--ember)" />
-          <stop offset="1" stopColor="var(--amber-glow)" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M0 9 Q 10 4, 20 9 T 40 9 T 60 9 T 80 9 T 100 9"
-        stroke="url(#wv)"
-        strokeWidth="1.25"
-        fill="none"
-      >
-        <animate
-          attributeName="d"
-          dur="5s"
-          repeatCount="indefinite"
-          values="
-            M0 9 Q 10 4, 20 9 T 40 9 T 60 9 T 80 9 T 100 9;
-            M0 9 Q 10 14, 20 9 T 40 6 T 60 12 T 80 7 T 100 9;
-            M0 9 Q 10 4, 20 9 T 40 9 T 60 9 T 80 9 T 100 9"
-        />
-      </path>
-    </svg>
-  )
-}
-
-/* -------------------------------------------------------------------------- */
-/*  PRICING — DAY 9                                                           */
-/* -------------------------------------------------------------------------- */
-
 function Pricing() {
   const tiers = [
     {
-      name: "Diagnostic",
-      price: "$1,900",
-      unit: "one-time",
-      blurb: "Audit your current stack, find the leaks, leave a written report.",
+      name: "Free Fit Check",
+      price: "$0",
+      unit: "15 min",
+      blurb: "For owners who want a quick yes/no before spending money.",
       features: [
-        "Architecture review",
-        "Cost + bottleneck audit",
-        "Tooling recommendation",
-        "Async delivery in 5 days",
+        "Identify one repeated task",
+        "Confirm if an agent is realistic",
+        "Recommend the first workflow",
+        "No technical prep needed",
       ],
-      cta: "Start audit",
+      cta: "Check my workflow",
       featured: false,
     },
     {
-      name: "Pipeline",
-      price: "$12k",
-      unit: "flat · 10 days",
-      blurb: "One production pipeline, built and handed over. The core offer.",
+      name: "Workflow Blueprint",
+      price: "$299",
+      unit: "48 hours",
+      blurb:
+        "OpenClaw agent setup plus the first workflow plan before a full build.",
       features: [
-        "Full build + staging",
-        "Runbook + observability",
-        "30-day warranty",
-        "Direct Slack channel",
-        "Repo + IaC handover",
+        "60-minute workflow interview",
+        "OpenClaw agent setup included",
+        "Workflow map and tool plan",
+        "Multiple tool connections as needed",
+        "Approval and guardrail plan",
+        "Fixed build quote",
+        "$299 credited toward build",
       ],
-      cta: "Book pipeline",
+      cta: "Get blueprint",
+      featured: false,
+    },
+    {
+      name: "Starter Agent",
+      price: "$1,499",
+      unit: "5-7 days",
+      blurb: "One simple assistant live for a narrow, repeatable workflow.",
+      features: [
+        "One simple workflow live",
+        "OpenClaw setup included",
+        "Multiple tools connected as needed",
+        "Drafts, summaries, or task updates",
+        "Basic guardrails and approval rule",
+        "Plain operating guide",
+        "14 days of fixes",
+      ],
+      cta: "Start small",
+      featured: false,
+    },
+    {
+      name: "Business Agent",
+      price: "$3,499",
+      unit: "10-14 days",
+      blurb:
+        "The recommended build when mistakes are costly and approvals matter.",
+      features: [
+        "One complete workflow live",
+        "Multiple tools connected as needed",
+        "OpenClaw setup included",
+        "More guardrails for lower risk",
+        "Approval rules for sensitive actions",
+        "Team walkthrough",
+        "30 days of fixes",
+      ],
+      cta: "Build business agent",
       featured: true,
     },
+  ]
+  const powerOffers = [
     {
-      name: "Retainer",
-      price: "$6k",
-      unit: "per month",
-      blurb: "On-call engineering for teams already running on what we built.",
-      features: [
-        "Up to 20h / month",
-        "Incident response",
-        "Quarterly roadmap review",
-        "No rollover lock-in",
+      name: "Agency Agent Team",
+      price: "$6,499",
+      unit: "2-3 weeks",
+      details: [
+        "Multiple agents or workflows",
+        "Tools connected per workflow need",
+        "For development, research, design, SEO, or content teams",
+        "Shared guardrail and approval system",
+        "Basic KPI dashboard",
+        "45 days of fixes",
       ],
-      cta: "Talk retainer",
-      featured: false,
+    },
+    {
+      name: "Monthly Care",
+      price: "$499/mo",
+      unit: "after launch",
+      details: [
+        "Monitoring and small fixes",
+        "Monthly guardrail review",
+        "Support for questions",
+        "Good for a stable first agent",
+      ],
+    },
+    {
+      name: "Improve Plan",
+      price: "$999/mo",
+      unit: "ongoing",
+      details: [
+        "Everything in Monthly Care",
+        "One small improvement each month",
+        "Agent and guardrail tune-ups",
+        "Best for agencies adding workflows",
+      ],
+    },
+    {
+      name: "Partner Plan",
+      price: "$1,999/mo",
+      unit: "ongoing",
+      details: [
+        "Priority support",
+        "Up to 2 improvements monthly",
+        "New agent and workflow planning",
+        "Best for agency multi-agent operations",
+      ],
     },
   ]
   return (
-    <section id="pricing" className="relative border-t border-hairline">
+    <section id="pricing" className="border-hairline relative border-t">
       <SectionHeader
-        no="§ 05"
-        day="Day 09"
-        kicker="The Invoice, Published"
+        no="05"
+        day="Pricing"
+        kicker="Offers"
         title={
           <>
-            Flat rates.{" "}
-            <span className="font-serif-italic font-normal text-ash">No surprises.</span>
+            Competitive entry.
+            <br className="hidden md:block" /> Clear scope before big spend.
           </>
         }
-        lede="Published numbers. The same price whether you're seed or post-B. We win on speed, not quotes."
+        lede="Most teams should not start with a vague five-figure AI project. Start with setup and a scoped workflow, then pay more only when you need stronger guardrails or multiple agents."
       />
-      <Reveal as="div" stagger={120} className="mx-auto grid max-w-[1440px] grid-cols-1 border-x border-hairline md:grid-cols-3">
+      <Reveal
+        as="div"
+        stagger={120}
+        className="border-hairline mx-auto grid max-w-[1440px] grid-cols-1 border-x md:grid-cols-2 xl:grid-cols-4"
+      >
         {tiers.map((t, i) => (
           <article
             key={t.name}
             className={[
-              "lift relative flex flex-col p-8 md:p-12",
-              i < tiers.length - 1 ? "border-b border-hairline md:border-b-0 md:border-r" : "",
+              "lift border-hairline relative flex flex-col border-b p-8 md:p-10 xl:border-b-0",
+              i % 2 === 0 ? "md:border-r" : "",
+              i < tiers.length - 1 ? "xl:border-r" : "",
               t.featured ? "bg-surface-1/70" : "",
             ].join(" ")}
             style={
@@ -838,8 +867,8 @@ function Pricing() {
             }
           >
             {t.featured && (
-              <span className="label absolute right-6 top-6 rounded-sm border border-ember/60 bg-ember/10 px-2 py-1 text-ember">
-                ★ most booked
+              <span className="label absolute top-6 right-6 rounded-sm border border-ember/60 bg-ember/10 px-2 py-1 text-ember">
+                Most useful
               </span>
             )}
             <div className="label text-ash">{t.name}</div>
@@ -854,9 +883,13 @@ function Pricing() {
               {t.features.map((f) => (
                 <li key={f} className="flex items-start gap-2.5">
                   <Check
-                    className={`mt-0.5 h-4 w-4 shrink-0 ${t.featured ? "text-ember" : "text-ash"}`}
+                    className={`mt-0.5 h-4 w-4 shrink-0 ${
+                      t.featured ? "text-ember" : "text-ash"
+                    }`}
                   />
-                  <span className={t.featured ? "text-bone" : "text-bone/80"}>{f}</span>
+                  <span className={t.featured ? "text-bone" : "text-bone/80"}>
+                    {f}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -865,155 +898,143 @@ function Pricing() {
               className={[
                 "mt-10 inline-flex items-center justify-between rounded-sm px-4 py-3 text-sm",
                 t.featured
-                  ? "bg-ember text-coal ember-glow hover:brightness-110"
-                  : "border border-hairline hover:border-bone/60",
+                  ? "ember-glow bg-ember text-coal hover:brightness-110"
+                  : "border-hairline border hover:border-bone/60",
               ].join(" ")}
             >
               {t.cta}
-              <ArrowUpRight className="h-4 w-4 magnetic" />
+              <ArrowUpRight className="magnetic h-4 w-4" />
             </MagneticButton>
           </article>
         ))}
       </Reveal>
-      <div className="mx-auto max-w-[1440px] border-x border-t border-hairline px-8 py-5">
-        <p className="label text-ash">
-          Invoiced in USD · NET15 · cancel anytime · no lock-in, no retainer
-          minimums
-        </p>
+      <div className="border-hairline mx-auto max-w-[1440px] border-x border-t">
+        <div className="grid grid-cols-1 md:grid-cols-12">
+          <div className="border-hairline border-b p-8 md:col-span-4 md:border-r md:border-b-0 md:p-10">
+            <div className="label text-ember">
+              More power after the first win
+            </div>
+            <h3 className="mt-4 font-display text-3xl font-medium tracking-tight md:text-4xl">
+              Expand only when the agent is earning its place.
+            </h3>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-ash">
+              Built for agencies that need more than one agent across
+              development, research, design, SEO, content, and operations.
+              Higher tiers add more guardrails, lower-risk approvals, and
+              ongoing improvement.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:col-span-8 md:grid-cols-2">
+            {powerOffers.map((offer, i) => (
+              <article
+                key={offer.name}
+                className={[
+                  "p-8 md:p-10",
+                  i < powerOffers.length - 1 ? "border-hairline border-b" : "",
+                  i === 2 ? "md:border-b-0" : "",
+                  i % 2 === 0 ? "md:border-r" : "",
+                ].join(" ")}
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="label text-ash">{offer.name}</div>
+                  <div className="font-mono text-xs text-ash">{offer.unit}</div>
+                </div>
+                <div className="mt-4 font-display text-4xl font-medium tracking-tight text-bone">
+                  {offer.price}
+                </div>
+                <ul className="mt-6 space-y-2 text-sm text-bone/80">
+                  {offer.details.map((detail) => (
+                    <li key={detail} className="flex items-start gap-2.5">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-ash" />
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="border-hairline border-t px-8 py-5">
+          <p className="label text-ash">
+            Fixed scopes protect the low entry price. Platform subscriptions,
+            paid APIs, and unusually complex integrations are quoted separately
+            before work starts.
+          </p>
+        </div>
       </div>
     </section>
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  TESTIMONIALS                                                              */
-/* -------------------------------------------------------------------------- */
-
-function Testimonials() {
-  const quotes = [
-    {
-      q: "Openclaw rebuilt our ingest in nine days. The bill went from $18,400 to $3,120 a month and nothing broke. I keep waiting for the catch.",
-      a: "Priya Ravikumar",
-      r: "VP Data · Helios AI",
-      hash: "a7c3f91",
-    },
-    {
-      q: "They handed us a repo, a runbook, and a pinned Grafana board. No hand-waving, no platform-team gatekeeping. It just shipped.",
-      a: "Johann Albrecht",
-      r: "Staff Engineer · Parallax",
-      hash: "de02b14",
-    },
-    {
-      q: "What stood out was the written RFC before a single line of Terraform. It's how I wish my own team operated.",
-      a: "Camille Okonkwo",
-      r: "CTO · Fieldnote",
-      hash: "41b8c2d",
-    },
-  ]
-  return (
-    <section id="work" className="relative border-t border-hairline">
-      <SectionHeader
-        no="§ 06"
-        day="Field notes"
-        kicker="Handover receipts"
-        title={
-          <>
-            What teams say
-            <br className="hidden md:block" />{" "}
-            <span className="font-serif-italic font-normal text-ash">after handover.</span>
-          </>
-        }
-      />
-      <Reveal as="div" stagger={140} className="mx-auto grid max-w-[1440px] grid-cols-1 border-x border-hairline md:grid-cols-3">
-        {quotes.map((q, i) => (
-          <figure
-            key={i}
-            className={`lift flex flex-col justify-between p-8 md:p-12 ${
-              i < quotes.length - 1 ? "border-b border-hairline md:border-b-0 md:border-r" : ""
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <CircleDot className="h-5 w-5 text-ember" />
-              <span className="font-mono text-[10px] text-ash">#{q.hash}</span>
-            </div>
-            <blockquote className="font-display mt-8 text-2xl font-medium leading-snug tracking-tight text-bone">
-              &ldquo;{q.q}&rdquo;
-            </blockquote>
-            <figcaption className="mt-8 flex items-center gap-3 border-t border-hairline pt-5">
-              <span className="grid h-9 w-9 place-items-center rounded-full border border-hairline bg-surface-1 font-mono text-xs text-bone">
-                {q.a
-                  .split(" ")
-                  .map((s) => s[0])
-                  .join("")}
-              </span>
-              <span>
-                <div className="text-sm text-bone">{q.a}</div>
-                <div className="label mt-0.5 text-ash">{q.r}</div>
-              </span>
-            </figcaption>
-          </figure>
-        ))}
-      </Reveal>
-    </section>
-  )
-}
-
-/* -------------------------------------------------------------------------- */
-/*  FAQ                                                                       */
-/* -------------------------------------------------------------------------- */
-
 function Faq() {
   const items = [
     {
-      q: "Why flat pricing?",
-      a: "Because scope-creep billing rewards the wrong behaviour. We estimate tightly, eat the variance, and if we're wrong that's on us — not on a change order.",
+      q: "What is OpenClaw, in plain English?",
+      a: "OpenClaw is open-source software for running AI agents. We use it as the engine for assistants that can work across your tools, while you keep ownership of the setup.",
     },
     {
-      q: "What stack do you use?",
-      a: "Opinionated but not dogmatic: Airflow / Dagster, dbt, Iceberg or the warehouse you already pay for, Terraform, and Grafana. If your stack is different, we adapt — we don't re-platform.",
+      q: "Do we need a technical team?",
+      a: "No. You need to know the workflow you want help with. We handle setup, connections, agent instructions, safety rules, testing, and handover.",
     },
     {
-      q: "Do you work on-site?",
-      a: "Remote by default, with a shared Slack channel and daily loom. We fly in for kickoff or handover when it matters.",
+      q: "Why is the entry price so low?",
+      a: "The first step is tightly scoped. A free fit check or $299 blueprint helps both sides avoid a vague, expensive project. The $299 blueprint includes OpenClaw agent setup, required tool connections for the workflow, and the plan for the safer full build.",
     },
     {
-      q: "What happens after the 10 days?",
-      a: "You own the repo and the runbook. You can walk away, keep us on retainer, or hand the keys to your team. We write the documentation assuming we'll never touch it again.",
+      q: "What counts as a simple workflow?",
+      a: "A simple workflow has one main trigger and one clear output, even if it needs multiple connected tools. Examples include drafting support replies, summarizing leads, updating a sheet, or preparing a weekly report.",
     },
     {
-      q: "Do you sign DPAs / SOC2?",
-      a: "Yes. DPA and MSA templates on request. SOC2 Type II completion timeline available under NDA.",
+      q: "Why do higher plans cost more?",
+      a: "Higher plans are not just more tools. They include more guardrails, lower-risk approval paths, deeper testing, clearer handover, and support for agencies that need multiple agents across development, research, design, SEO, content, or operations.",
     },
     {
-      q: "Is there a minimum engagement?",
-      a: "The Diagnostic ($1,900) is a valid front door. Most teams then upgrade to a Pipeline. No retainer minimums after that.",
+      q: "What costs are not included?",
+      a: "Third-party software subscriptions, paid API usage, unusual enterprise security reviews, and complex custom integrations are not bundled into the low fixed prices. We call those out before work starts.",
+    },
+    {
+      q: "What should we automate first?",
+      a: "Start with a repeated task that has clear inputs and a human review step: support replies, lead follow-up, invoice review, meeting prep, weekly reporting, or CRM updates.",
+    },
+    {
+      q: "Can the assistant make mistakes?",
+      a: "Yes, which is why we design it around drafts, summaries, checklists, and approval rules. Sensitive actions can require a human click before anything happens.",
+    },
+    {
+      q: "Will this replace our people?",
+      a: "The first agent should remove repetitive prep work, not remove judgment. Your team still decides, approves, and handles edge cases.",
+    },
+    {
+      q: "What do we own at the end?",
+      a: "You own the OpenClaw setup, agent instructions, connected workflow, approval rules, operating guide, and handover notes.",
     },
   ]
   return (
-    <section id="faq" className="relative border-t border-hairline">
+    <section id="faq" className="border-hairline relative border-t">
       <SectionHeader
-        no="§ 07"
+        no="06"
         day="Reference"
         kicker="FAQ"
         title={
           <>
-            Straight answers,{" "}
-            <span className="font-serif-italic font-normal text-ash">no fluff.</span>
+            Plain answers
+            <span className="font-serif-italic font-normal text-ash">
+              {" "}
+              before the call.
+            </span>
           </>
         }
       />
-      <div className="mx-auto max-w-[1440px] border-x border-hairline">
+      <div className="border-hairline mx-auto max-w-[1440px] border-x">
         <div className="divide-y divide-[rgb(245_235_220_/_0.08)]">
           {items.map((it, i) => (
             <details
-              key={i}
+              key={it.q}
               className="group px-6 py-6 transition-colors open:bg-surface-1/40 md:px-10 md:py-7"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6">
                 <span className="flex items-center gap-6">
-                  <span className="label w-10 shrink-0 text-ash">
-                    0{i + 1}
-                  </span>
+                  <span className="label w-10 shrink-0 text-ash">0{i + 1}</span>
                   <span className="font-display text-xl font-medium tracking-tight text-bone md:text-2xl">
                     {it.q}
                   </span>
@@ -1039,31 +1060,28 @@ function Faq() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  HANDOVER — DAY 10 (CTA + closing scene)                                   */
-/* -------------------------------------------------------------------------- */
-
 function Handover() {
   return (
     <section
       id="handover"
-      className="relative isolate overflow-hidden border-t border-hairline"
+      className="border-hairline relative isolate overflow-hidden border-t"
     >
-      <div className="absolute inset-0 -z-10 spotlight opacity-80" />
-      <div className="absolute inset-0 -z-10 bg-grid opacity-30" />
-      <div className="mx-auto grid max-w-[1440px] grid-cols-12 border-x border-hairline">
+      <div className="spotlight absolute inset-0 -z-10 opacity-80" />
+      <div className="bg-grid absolute inset-0 -z-10 opacity-30" />
+      <div className="border-hairline mx-auto grid max-w-[1440px] grid-cols-12 border-x">
         <div className="col-span-12 px-6 py-24 md:col-span-8 md:px-12 md:py-32">
           <div className="label mb-8 flex items-center gap-3 text-ash">
-            <span>§ 08 · day 10 · handover</span>
+            <span>07 / start</span>
             <span className="hidden h-[10px] w-px bg-[rgb(245_235_220_/_0.15)] md:block" />
             <span className="hidden text-[9px] md:inline">
-              keys handed over · <span className="text-live">status: yours</span>
+              bring one task /{" "}
+              <span className="text-live">leave with a plan</span>
             </span>
           </div>
-          <h2 className="font-display text-[clamp(2.5rem,5.6vw,5rem)] font-medium leading-[0.95] tracking-[-0.035em]">
-            Got a pipeline
+          <h2 className="font-display text-[clamp(2.5rem,5.6vw,5rem)] leading-[0.95] font-medium tracking-[-0.035em]">
+            What task should
             <br />
-            that should already
+            your team stop
             <br />
             <span
               className="font-serif-italic font-normal text-ember"
@@ -1072,49 +1090,50 @@ function Handover() {
                   "0 0 40px color-mix(in oklch, var(--ember) 38%, transparent), 0 0 80px color-mix(in oklch, var(--ember) 18%, transparent)",
               }}
             >
-              be running?
+              doing by hand?
             </span>
           </h2>
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-ash">
-            Book a 60-minute scoping call. If we&rsquo;re the wrong crew,
-            we&rsquo;ll point you at the right one — no retainer, no pitch deck.
+            Send us the repeated workflow: the messages, spreadsheets, tools,
+            approvals, and annoying steps. We will tell you what an OpenClaw
+            assistant can safely handle first, starting with a free fit check.
           </p>
           <div className="mt-12 flex flex-wrap items-center gap-3">
             <MagneticButton
-              href="mailto:crew@openclaw.dev"
-              className="inline-flex items-center gap-2 rounded-sm bg-ember px-6 py-3.5 text-sm font-medium text-coal ember-glow hover:brightness-110"
+              href="mailto:crew@openclaw.dev?subject=Free%20workflow%20fit%20check"
+              className="ember-glow inline-flex items-center gap-2 rounded-sm bg-ember px-6 py-3.5 text-sm font-medium text-coal hover:brightness-110"
             >
-              crew@openclaw.dev
-              <ArrowUpRight className="h-4 w-4 magnetic" />
+              Check my workflow
+              <ArrowUpRight className="magnetic h-4 w-4" />
             </MagneticButton>
             <MagneticButton
-              href="#"
-              className="inline-flex items-center gap-2 rounded-sm border border-hairline px-6 py-3.5 text-sm hover:border-bone/60"
+              href="mailto:crew@openclaw.dev?subject=Workflow%20blueprint"
+              className="border-hairline inline-flex items-center gap-2 rounded-sm border px-6 py-3.5 text-sm hover:border-bone/60"
               strength={4}
             >
-              Book 60 min · Cal.com
+              Get $299 blueprint
             </MagneticButton>
           </div>
         </div>
-        <aside className="col-span-12 flex flex-col justify-between border-t border-hairline px-6 py-12 md:col-span-4 md:border-l md:border-t-0 md:px-10 md:py-32">
+        <aside className="border-hairline col-span-12 flex flex-col justify-between border-t px-6 py-12 md:col-span-4 md:border-t-0 md:border-l md:px-10 md:py-32">
           <div>
-            <div className="label text-ash">Next cohort</div>
-            <div className="font-display mt-3 text-5xl font-medium tracking-tight text-bone">
-              May
+            <div className="label text-ash">First call output</div>
+            <div className="mt-3 font-display text-5xl font-medium tracking-tight text-bone">
+              Workflow map
             </div>
             <div className="mt-1 font-mono text-xs text-ash">
-              3 of 5 slots remaining
+              task / tools / approvals / first agent
             </div>
           </div>
           <div className="mt-10 space-y-4">
             {[
-              ["Scope", "60-min call, no slides"],
-              ["Quote", "flat, in writing, same day"],
-              ["Kickoff", "Monday of next sprint"],
+              ["Bring", "one repeated task"],
+              ["Get", "a buildable assistant plan"],
+              ["Decide", "blueprint, starter, or business build"],
             ].map(([k, v]) => (
               <div
                 key={k}
-                className="flex items-center justify-between border-t border-hairline pt-4"
+                className="border-hairline flex items-center justify-between border-t pt-4"
               >
                 <span className="label text-ash">{k}</span>
                 <span className="text-sm text-bone/80">{v}</span>
@@ -1127,44 +1146,52 @@ function Handover() {
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  FOOTER                                                                    */
-/* -------------------------------------------------------------------------- */
-
 function Footer() {
   return (
-    <footer className="relative border-t border-hairline bg-coal">
-      <div className="mx-auto max-w-[1440px] border-x border-hairline px-6 py-14 md:px-10">
+    <footer className="border-hairline relative border-t bg-coal">
+      <div className="border-hairline mx-auto max-w-[1440px] border-x px-6 py-14 md:px-10">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2">
             <div className="flex items-center gap-2.5">
               <Mark />
               <span className="font-display text-2xl font-medium tracking-tight">
-                Openclaw
+                OpenClaw Services
               </span>
             </div>
             <p className="mt-5 max-w-xs text-sm text-ash">
-              A small, senior crew. We configure the plumbing so your product
-              team can ship the feature.
+              Done-for-you OpenClaw assistants for support, sales, finance,
+              operations, and founder workflows.
             </p>
             <div className="label mt-8 flex items-center gap-2 text-ash">
-              <span className="h-1.5 w-1.5 rounded-full bg-live pulse-dot" />
-              All systems operational
+              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-live" />
+              Built for non-technical teams
             </div>
           </div>
 
           {[
             {
-              h: "Services",
-              l: ["Ingestion", "Orchestration", "Warehouse", "ML pipelines", "Reliability"],
+              h: "Agents",
+              l: [
+                "Support",
+                "Sales follow-up",
+                "Finance admin",
+                "Operations",
+                "Founder briefings",
+              ],
             },
             {
               h: "Company",
-              l: ["Process", "Pricing", "Field notes", "Changelog", "Contact"],
+              l: ["Examples", "Safety", "Process", "Pricing", "Fit check"],
             },
             {
-              h: "Legal",
-              l: ["Terms", "Privacy", "DPA", "Sub-processors", "Security"],
+              h: "Safety",
+              l: [
+                "Approvals",
+                "Blocked actions",
+                "Ownership",
+                "Blueprint",
+                "Guide",
+              ],
             },
           ].map((c) => (
             <div key={c.h}>
@@ -1172,10 +1199,7 @@ function Footer() {
               <ul className="mt-5 space-y-2.5 text-sm">
                 {c.l.map((x) => (
                   <li key={x}>
-                    <a
-                      href="#"
-                      className="text-ash transition hover:text-bone"
-                    >
+                    <a href="#" className="text-ash transition hover:text-bone">
                       {x}
                     </a>
                   </li>
@@ -1189,23 +1213,22 @@ function Footer() {
 
         <div className="mt-6 flex flex-col items-start justify-between gap-4 font-mono text-[11px] text-ash md:flex-row md:items-center">
           <span>
-            © {new Date().getFullYear()} Openclaw Services, LLC · crafted
-            offline in Lisbon / Berlin / NYC
+            (c) {new Date().getFullYear()} OpenClaw Services, LLC / remote
+            implementation crew
           </span>
           <span className="flex items-center gap-5">
-            <span>v4.2.0</span>
-            <span>build · a7c3f91</span>
+            <span>v5.1.0</span>
+            <span>build / business-workflows</span>
             <a href="#" className="press hover:text-bone">
-              status.openclaw.dev ↗
+              status.openclaw.dev
             </a>
           </span>
         </div>
       </div>
 
-      {/* massive watermark */}
-      <div className="pointer-events-none select-none overflow-hidden border-t border-hairline">
+      <div className="border-hairline pointer-events-none overflow-hidden border-t select-none">
         <div className="mx-auto max-w-[1440px] px-4">
-          <div className="font-display flex justify-center py-6 text-[clamp(4rem,18vw,18rem)] font-medium leading-[0.8] tracking-[-0.06em] text-bone/[0.05]">
+          <div className="flex justify-center py-6 font-display text-[clamp(4rem,18vw,18rem)] leading-[0.8] font-medium tracking-[-0.06em] text-bone/[0.05]">
             openclaw
           </div>
         </div>
@@ -1213,10 +1236,6 @@ function Footer() {
     </footer>
   )
 }
-
-/* -------------------------------------------------------------------------- */
-/*  Shared                                                                    */
-/* -------------------------------------------------------------------------- */
 
 function SectionHeader({
   no,
@@ -1232,11 +1251,13 @@ function SectionHeader({
   lede?: string
 }) {
   return (
-    <div className="mx-auto grid max-w-[1440px] grid-cols-12 border-x border-hairline">
-      <div className="col-span-12 grid grid-cols-12 border-b border-hairline">
+    <div className="border-hairline mx-auto grid max-w-[1440px] grid-cols-12 border-x">
+      <div className="border-hairline col-span-12 grid grid-cols-12 border-b">
         <div className="col-span-12 flex items-center justify-between px-6 py-5 md:px-10">
           <span className="label flex items-center gap-3 text-ash">
-            <span>{no} · {kicker}</span>
+            <span>
+              {no} / {kicker}
+            </span>
             {day && (
               <>
                 <span className="hidden h-[10px] w-px bg-[rgb(245_235_220_/_0.15)] md:block" />
@@ -1244,11 +1265,13 @@ function SectionHeader({
               </>
             )}
           </span>
-          <span className="label hidden text-ash md:inline">openclaw / services</span>
+          <span className="label hidden text-ash md:inline">
+            openclaw / services
+          </span>
         </div>
       </div>
       <div className="col-span-12 grid grid-cols-12 gap-0 px-6 py-20 md:px-10 md:py-28">
-        <h2 className="font-display col-span-12 text-[clamp(2.25rem,4.8vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.035em] md:col-span-8">
+        <h2 className="col-span-12 font-display text-[clamp(2.25rem,4.8vw,4.5rem)] leading-[0.94] font-medium tracking-[-0.035em] md:col-span-8">
           {title}
         </h2>
         {lede && (

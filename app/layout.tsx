@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollProvider } from "@/components/openclaw/scroll-provider"
 import { CoreCanvas } from "@/components/openclaw/core-canvas"
 import { DayRail } from "@/components/openclaw/day-rail"
+import { Nav } from "@/components/auren/nav"
+import { Footer } from "@/components/auren/footer"
 import { cn } from "@/lib/utils"
 
 const fontSans = Geist({
@@ -54,7 +56,9 @@ export default function RootLayout({
           <ScrollProvider>
             <CoreCanvas />
             <DayRail />
+            <Nav />
             {children}
+            <Footer />
           </ScrollProvider>
           <div aria-hidden className="grain-overlay" />
           <div

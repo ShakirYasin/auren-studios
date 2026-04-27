@@ -1,0 +1,170 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777243212624,
+  "projectRoot": "D:\\Aliyan\\Project\\auren-studios",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.1.7",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev --turbopack",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint",
+      "format": "prettier --write \"**/*.{ts,tsx}\"",
+      "typecheck": "tsc --noEmit"
+    }
+  },
+  "conventions": {
+    "namingStyle": "camelCase",
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "app",
+      "components",
+      "docs",
+      "lib",
+      "public"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "app": {
+      "path": "app",
+      "purpose": "Application code",
+      "fileCount": 4,
+      "lastAccessed": 1777243212582,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx",
+        "page.tsx"
+      ]
+    },
+    "components": {
+      "path": "components",
+      "purpose": "UI components",
+      "fileCount": 3,
+      "lastAccessed": 1777243212583,
+      "keyFiles": [
+        "reveal.tsx",
+        "theme-provider.tsx"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1777243212598,
+      "keyFiles": []
+    },
+    "hooks": {
+      "path": "hooks",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1777243212598,
+      "keyFiles": []
+    },
+    "lib": {
+      "path": "lib",
+      "purpose": "Library code",
+      "fileCount": 4,
+      "lastAccessed": 1777243212610,
+      "keyFiles": [
+        "assessment.ts",
+        "sound.ts",
+        "utils.ts"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 1,
+      "lastAccessed": 1777243212611,
+      "keyFiles": []
+    },
+    "app\\api": {
+      "path": "app\\api",
+      "purpose": "API routes",
+      "fileCount": 0,
+      "lastAccessed": 1777243212611,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1777243505544,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\aliya\\AppData\\Local\\Temp\\claude\\D--Aliyan-Project-auren-studios\\1c09fcb2-b4c6-4642-ae9b-3bccab3ef220\\tasks\\b3ulk1kiu.output",
+      "accessCount": 1,
+      "lastAccessed": 1777243290725,
+      "type": "file"
+    },
+    {
+      "path": "docs\\plans\\2026-04-19-openclaw-cinematic-redesign-design.md",
+      "accessCount": 1,
+      "lastAccessed": 1777243319876,
+      "type": "file"
+    },
+    {
+      "path": "docs\\plans\\2026-04-23-auren-studios-rebrand-plan.md",
+      "accessCount": 1,
+      "lastAccessed": 1777243320236,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

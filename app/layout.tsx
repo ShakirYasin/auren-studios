@@ -3,8 +3,9 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollProvider } from "@/components/openclaw/scroll-provider"
-import { CoreCanvas } from "@/components/openclaw/core-canvas"
 import { DayRail } from "@/components/openclaw/day-rail"
+import { Nav } from "@/components/auren/nav"
+import { Footer } from "@/components/auren/footer"
 import { cn } from "@/lib/utils"
 
 const fontSans = Geist({
@@ -27,9 +28,9 @@ const fontSerif = Instrument_Serif({
 })
 
 export const metadata = {
-  title: "OpenClaw Services - AI assistants from $1,499",
+  title: "Auren Studios — Studio for AI, web, and mobile craft",
   description:
-    "Done-for-you OpenClaw agents for non-technical teams: $299 blueprint with agent setup, $1,499 starter agent, and guarded multi-agent workflows for agencies.",
+    "Auren Studios designs and builds AI agents, automations, web, and mobile products. A boutique studio shipping with cinematic care.",
 }
 
 export default function RootLayout({
@@ -52,9 +53,10 @@ export default function RootLayout({
       <body className="bg-coal text-bone">
         <ThemeProvider defaultTheme="dark" forcedTheme="dark">
           <ScrollProvider>
-            <CoreCanvas />
             <DayRail />
+            <Nav />
             {children}
+            <Footer />
           </ScrollProvider>
           <div aria-hidden className="grain-overlay" />
           <div

@@ -56,7 +56,6 @@ export function Reveal({
     return () => io.disconnect()
   }, [threshold, once])
 
-  const Tag = as as ElementType
   const style: CSSProperties & { "--stagger"?: string } = {
     transitionDelay: `${delay}ms`,
     transform: shown ? "none" : `translate3d(0, ${y}px, 0)`,
@@ -66,13 +65,11 @@ export function Reveal({
   if (stagger) {
     style["--stagger"] = `${stagger}ms`
   }
-  const setElementRef = (node: HTMLElement | null) => {
-    ref.current = node
-  }
+  const Tag = as as "div"
 
   return (
     <Tag
-      ref={setElementRef}
+      ref={ref as React.RefObject<HTMLDivElement>}
       id={id}
       data-shown={shown || undefined}
       className={`reveal ${stagger ? "reveal-stagger" : ""} ${className}`}

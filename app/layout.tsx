@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollProvider } from "@/components/openclaw/scroll-provider"
-import { CoreCanvas } from "@/components/openclaw/core-canvas"
 import { DayRail } from "@/components/openclaw/day-rail"
 import { Nav } from "@/components/auren/nav"
 import { Footer } from "@/components/auren/footer"
@@ -54,7 +53,6 @@ export default function RootLayout({
       <body className="bg-coal text-bone">
         <ThemeProvider defaultTheme="dark" forcedTheme="dark">
           <ScrollProvider>
-            <CoreCanvas />
             <DayRail />
             <Nav />
             {children}

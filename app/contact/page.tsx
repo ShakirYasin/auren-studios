@@ -1,5 +1,4 @@
-import { ArrowUpRight } from "lucide-react"
-
+import { ContactForm } from "@/components/auren/contact-form"
 import { SectionHeader } from "@/components/auren/section-header"
 import { LiveClock } from "@/components/openclaw/live-clock"
 import { LiveCounter } from "@/components/openclaw/live-counter"
@@ -10,35 +9,6 @@ export const metadata = {
   description:
     "Tell us about your project. We respond within one business day.",
 }
-
-const INPUT_BASE =
-  "border-hairline bg-surface-1 w-full border px-4 py-3 text-sm text-bone placeholder:text-ash focus:outline-none focus:border-ember/60"
-
-const PROJECT_TYPES = [
-  "AI Automations",
-  "AI Agents",
-  "Web Design",
-  "Mobile App",
-  "Brand Identity",
-  "SaaS Engineering",
-  "Not sure yet",
-]
-
-const BUDGETS = [
-  "<$10K",
-  "$10K–$25K",
-  "$25K–$50K",
-  "$50K–$100K",
-  "$100K+",
-  "Just exploring",
-]
-
-const TIMELINES = [
-  "This month",
-  "Next month",
-  "This quarter",
-  "Just exploring",
-]
 
 export default function Page() {
   return (
@@ -67,140 +37,7 @@ export default function Page() {
               </span>
             </div>
 
-            <form
-              action="mailto:hello@aurenstudios.com"
-              method="post"
-              encType="text/plain"
-              className="mt-10 space-y-6"
-            >
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                  <label htmlFor="name" className="label text-ash">
-                    name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    autoComplete="name"
-                    placeholder="your name"
-                    className={`mt-2 ${INPUT_BASE}`}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="label text-ash">
-                    email
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    placeholder="you@company.com"
-                    className={`mt-2 ${INPUT_BASE}`}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                  <label htmlFor="project" className="label text-ash">
-                    project type
-                  </label>
-                  <select
-                    id="project"
-                    name="project_type"
-                    defaultValue=""
-                    className={`mt-2 ${INPUT_BASE}`}
-                  >
-                    <option value="" disabled>
-                      select one
-                    </option>
-                    {PROJECT_TYPES.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="budget" className="label text-ash">
-                    budget range
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    defaultValue=""
-                    className={`mt-2 ${INPUT_BASE}`}
-                  >
-                    <option value="" disabled>
-                      select one
-                    </option>
-                    {BUDGETS.map((b) => (
-                      <option key={b} value={b}>
-                        {b}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="timeline" className="label text-ash">
-                  timeline
-                </label>
-                <select
-                  id="timeline"
-                  name="timeline"
-                  defaultValue=""
-                  className={`mt-2 ${INPUT_BASE}`}
-                >
-                  <option value="" disabled>
-                    select one
-                  </option>
-                  {TIMELINES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="label text-ash">
-                  message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  placeholder="Tell us about the project — what, why, and any links."
-                  className={`mt-2 ${INPUT_BASE} resize-y`}
-                />
-              </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="ember-glow press group inline-flex w-full items-center justify-center gap-2 rounded-sm bg-ember px-6 py-3.5 text-sm font-medium text-coal transition hover:brightness-110"
-                >
-                  Send brief
-                  <ArrowUpRight className="h-4 w-4" />
-                </button>
-                <p className="mt-3 text-center font-mono text-[11px] text-ash">
-                  or email us directly:{" "}
-                  <a
-                    href="mailto:hello@aurenstudios.com"
-                    className="text-ember hover:underline"
-                  >
-                    hello@aurenstudios.com
-                  </a>
-                </p>
-              </div>
-            </form>
+            <ContactForm />
           </div>
 
           {/* right — info panel */}

@@ -27,9 +27,9 @@ const fontSerif = Instrument_Serif({
 })
 
 export const metadata = {
-  title: "OpenClaw Services - AI assistants from $1,499",
+  title: "Auren Studios — Studio for AI, web, and mobile craft",
   description:
-    "Done-for-you OpenClaw agents for non-technical teams: $299 blueprint with agent setup, $1,499 starter agent, and guarded multi-agent workflows for agencies.",
+    "Auren Studios designs and builds AI agents, automations, web, and mobile products. A boutique studio shipping with cinematic care.",
 }
 
 export default function RootLayout({

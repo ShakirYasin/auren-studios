@@ -35,6 +35,13 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# lockfiles (only package.json is tracked)
+bun.lock
+bun.lockb
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

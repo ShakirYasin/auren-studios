@@ -105,7 +105,7 @@ export default function Page() {
                 thing actually runs.
               </p>
               <p className="text-base leading-relaxed text-ash">
-                We're four people who used to ship at larger studios and
+                We&apos;re four people who used to ship at larger studios and
                 stopped enjoying the meetings about meetings. The studio is
                 deliberately small so the founders are still the ones writing
                 the code and pushing the pixels.
@@ -117,14 +117,14 @@ export default function Page() {
                 studio sits around them rather than under any single one.
               </p>
               <p className="text-base leading-relaxed text-bone">
-                We've shipped for early-stage founders, agencies, and a couple
-                of operators we still <em className="font-serif italic">can't
+                We&apos;ve shipped for early-stage founders, agencies, and a couple
+                of operators we still <em className="font-serif italic">can&apos;t
                 name</em>. Distributed across UAE, US, and EU — which means
                 someone is awake when your build breaks.
               </p>
               <p className="text-base leading-relaxed text-ash">
-                Things we don't do: body-shopping, fixed monthly retainers
-                without scope, or "AI strategy" decks that never compile.
+                Things we don&apos;t do: body-shopping, fixed monthly retainers
+                without scope, or &ldquo;AI strategy&rdquo; decks that never compile.
                 Things we do: brief, build, demo, hand it over.
               </p>
             </div>

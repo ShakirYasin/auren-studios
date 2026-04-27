@@ -1,7 +1,7 @@
 "use client"
 
 import type { CSSProperties, ElementType, ReactNode } from "react"
-import { createElement, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type Props = {
   as?: ElementType
@@ -65,19 +65,17 @@ export function Reveal({
   if (stagger) {
     style["--stagger"] = `${stagger}ms`
   }
-  const setElementRef = (node: HTMLElement | null) => {
-    ref.current = node
-  }
+  const Tag = as as "div"
 
-  return createElement(
-    as,
-    {
-      ref: setElementRef,
-      id,
-      "data-shown": shown || undefined,
-      className: `reveal ${stagger ? "reveal-stagger" : ""} ${className}`,
-      style,
-    },
-    children,
+  return (
+    <Tag
+      ref={ref as React.RefObject<HTMLDivElement>}
+      id={id}
+      data-shown={shown || undefined}
+      className={`reveal ${stagger ? "reveal-stagger" : ""} ${className}`}
+      style={style}
+    >
+      {children}
+    </Tag>
   )
 }
